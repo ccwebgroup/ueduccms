@@ -1,0 +1,28 @@
+@use 'vuetify' with (
+  $utilities: false,
+  $color-pack: false,
+);
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap');
+
+html {
+  font-size: 63%;
+  @media only screen and (min-width: 600px) {
+      font-size: 94%;
+  }
+  @media only screen and (min-width: 1000px) {
+      font-size: 98%;
+  }
+  @media only screen and (min-width: 1200px) {
+      font-size: 100%;
+  }
+}
+
+.montserrat {
+  font-family: 'Montserrat', sans-serif !important
+}
+
+.responsive-text{
+  font-size: min(4vw,1.2rem);
+}
+

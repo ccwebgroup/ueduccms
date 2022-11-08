@@ -4,12 +4,38 @@ import { createVuetify } from "vuetify";
 import * as components from "vuetify/components";
 import * as directives from "vuetify/directives";
 
-import '@mdi/font/css/materialdesignicons.css'
-import 'vuetify/styles'
+import "@mdi/font/css/materialdesignicons.css";
+import "vuetify/styles";
+import "../css/app.scss"
 
 import router from "./router";
 
-const vuetify = createVuetify({ components, directives });
+const myCustomLightTheme = {
+    dark: false,
+    colors: {
+        background: "#FFFFFF",
+        surface: "#FFFFFF",
+        primary: "#6200EE",
+        "primary-darken-1": "#663e7a",
+        secondary: "#03DAC6",
+        "secondary-darken-1": "#018786",
+        error: "#B00020",
+        info: "#2196F3",
+        success: "#4CAF50",
+        warning: "#FB8C00",
+    },
+};
+
+const vuetify = createVuetify({
+    components,
+    directives,
+    theme: {
+        defaultTheme: "myCustomLightTheme",
+        themes: {
+            myCustomLightTheme,
+        },
+    },
+});
 
 const app = createApp(App);
 app.use(vuetify);
