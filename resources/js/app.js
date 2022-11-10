@@ -8,6 +8,13 @@ import "@mdi/font/css/materialdesignicons.css";
 import "vuetify/styles";
 import "../css/app.scss"
 
+//Quasar
+import { Quasar } from 'quasar'
+import '@quasar/extras/material-icons/material-icons.css'
+import 'quasar/src/css/index.sass'
+import '@quasar/extras/animate/fadeInLeft.css'
+import '@quasar/extras/animate/fadeOutLeft.css'
+
 import router from "./router";
 
 const myCustomLightTheme = {
@@ -35,6 +42,7 @@ const vuetify = createVuetify({
             myCustomLightTheme,
         },
     },
+
     display: {
         mobileBreakpoint: 'sm',
         thresholds: {
@@ -44,11 +52,15 @@ const vuetify = createVuetify({
             lg: 800,
             xl: 1280,
         },
-    }
+    },
 });
 
 const app = createApp(App);
 app.use(vuetify);
 app.use(router);
+
+app.use(Quasar, {
+    plugins: {},
+})
 
 app.mount("#app");

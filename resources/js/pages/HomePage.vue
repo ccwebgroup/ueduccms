@@ -1,11 +1,30 @@
 <template>
-    <div>
+    <div v-scroll="onScroll">
         <v-row>
-            <v-col cols="1"></v-col>
-            <v-col cols="12" sm="12" md="10">
-                <v-toolbar v-if="$vuetify.display.xl" dense floating color="transparent" class="text-left ml-5"
-                    style="position: sticky; top: 2rem; z-index: 1">
-                    <v-btn rounded="lg" icon="mdi-menu" variant="flat" class="text-white"
+            <transition appear enter-active-class="animated fadeInLeft" leave-active-class="animated fadeOutLeft">
+                <v-col cols="12" v-show="sideMenu" md="6">
+                    <q-card flat>
+                        <q-btn @click="sideMenu = false" size="1.8rem" flat round class="float-right text-bold mt-5"
+                            icon="arrow_back" />
+                        <q-item-label class="text-h3 montserrat text-bold">DISCUSSION AND ANALYSIS</q-item-label>
+
+                        <q-list class="mt-5">
+                            <q-item @click="sideMenu = false" v-for="item in units" clickable :to="item.path"
+                                active-class="active-unit">
+                                <q-item-section>
+                                    <q-item-label class="text-subtitle1 montserrat">{{ item.units }}</q-item-label>
+                                    <q-item-label class="text-h6 montserrat text-bold mt-2">{{ item.title }}
+                                    </q-item-label>
+                                </q-item-section>
+                            </q-item>
+                        </q-list>
+                    </q-card>
+                </v-col>
+            </transition>
+            <v-col cols="12" sm="12" :md="sideMenu ? '6' : '10'">
+                <v-toolbar v-if="!$vuetify.display.sm && !sideMenu" dense floating color="transparent"
+                    class="text-left ml-5" style="position: sticky; top: 2rem; z-index: 1">
+                    <v-btn @click="sideMenu = true" rounded="lg" icon="mdi-menu" variant="flat" class="text-white"
                         style="background-color: rgba(0, 0, 0, 0.5)"></v-btn>
                 </v-toolbar>
                 <div class="mx-auto mt-5 banner-container">
@@ -135,35 +154,21 @@
                         <div class="text-h6">당신이 본 광고 중 가장 흥미로웠던 것은 무엇입니까?</div>
                     </v-col>
                 </v-row>
+
+                <q-dialog v-if="$vuetify.display.sm" v-model="mobileMenu" position="bottom" seamless
+                    class="mobile-menu dimmed">
+                    <q-card dark style="background-color: #1d1d1dd4">
+                        <q-card-section class="row justify-evenly items-center no-wrap">
+                            <q-btn flat round icon="mdi-chevron-left" />
+                            <q-btn flat round icon="menu" />
+                            <q-btn flat round icon="mdi-chevron-right" />
+                        </q-card-section>
+                    </q-card>
+                </q-dialog>
             </v-col>
             <v-col cols="1"></v-col>
         </v-row>
 
-        <v-bottom-sheet hide-overlay inset class="rounded-t-lg">
-            <v-card tile>
-                <v-list>
-                    <v-list-item>
-                        <v-list-item-icon>
-                            <v-btn icon>
-                                <v-icon>mdi-chevron-left</v-icon>
-                            </v-btn>
-                        </v-list-item-icon>
-
-                        <v-list-item-icon>
-                            <v-btn icon>
-                                <v-icon>mdi-menu</v-icon>
-                            </v-btn>
-                        </v-list-item-icon>
-
-                        <v-list-item-icon>
-                            <v-btn icon>
-                                <v-icon>mdi-chevron-right</v-icon>
-                            </v-btn>
-                        </v-list-item-icon>
-                    </v-list-item>
-                </v-list>
-            </v-card>
-        </v-bottom-sheet>
     </div>
 </template>
 
@@ -177,12 +182,24 @@
     width: 100% !important;
     position: relative;
 }
+
+.active-unit {
+    background-color: #e4fadf;
+}
 </style>
 
 <script setup>
 import { ref } from 'vue';
 
+const sideMenu = ref(false);
 const mobileMenu = ref(true)
+
+const units = [
+    { units: "UNIT 1 - 1469", title: "Unit 01: Importance of Advertising", path: "/" },
+    { units: "UNIT 2 - 1470", title: "Unit 02: Mediums of Advertising", path: "/mediums" },
+    { units: "UNIT 3 - 1471", title: "Unit 03: Television", path: "/television" },
+]
+
 const cards = [
     { image: "https://drive.google.com/uc?export=view&id=1YbB84ijEOVu7A2iDlShWxiWecbZkj3mZ", title: "Advertising", translation: "광고", subtitle: "The business of drawing public attention to goods and services", subTranslation: "상품과 서비스에 대한 대중의 관심을 끄는 사업" },
     { image: "https://drive.google.com/uc?export=view&id=1jYA3enNLTol64brMz5jdVq6T9Xq8vtRS", title: "Advertisement", translation: "광고", subtitle: "A public promotion of some product or service", subTranslation: "일부 제품 또는 서비스의 공공의 홍보" },
@@ -198,4 +215,10 @@ const keywords = [
     { image: "https://drive.google.com/uc?export=view&id=1n1xE_eewSVOUGJO7r7HfmRnjW3M6kDX0", title: "promote", translation: "홍보하다" },
 ]
 
+const oldScroll = ref(0)
+const onScroll = (pos) => {
+    if (pos > oldScroll.value) mobileMenu.value = false
+    else mobileMenu.value = true
+    oldScroll.value = pos
+}
 </script>
