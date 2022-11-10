@@ -15,7 +15,7 @@ const myCustomLightTheme = {
     colors: {
         background: "#FFFFFF",
         surface: "#FFFFFF",
-        primary: "#6200EE",
+        primary: "#663e7a",
         "primary-darken-1": "#663e7a",
         secondary: "#03DAC6",
         "secondary-darken-1": "#018786",
@@ -23,7 +23,7 @@ const myCustomLightTheme = {
         info: "#2196F3",
         success: "#4CAF50",
         warning: "#FB8C00",
-    },
+    }
 };
 
 const vuetify = createVuetify({
@@ -35,6 +35,16 @@ const vuetify = createVuetify({
             myCustomLightTheme,
         },
     },
+    display: {
+        mobileBreakpoint: 'sm',
+        thresholds: {
+            xs: 0,
+            sm: 340,
+            md: 540,
+            lg: 800,
+            xl: 1280,
+        },
+    }
 });
 
 const app = createApp(App);
