@@ -171,12 +171,30 @@
                         </v-col>
                     </v-row>
 
-                    <q-dialog v-if="$vuetify.display.sm" v-model="mobileMenu" position="bottom" seamless
+                    <q-dialog v-model="mobileMenu" position="bottom">
+                        <q-card flat class="q-pa-sm">
+                            <q-item-label class="text-h4 montserrat text-center text-bold q-mt-md">DISCUSSION AND ANALYSIS
+                            </q-item-label>
+
+                            <q-list class="mt-5 q-gutter-y-sm">
+                                <q-item @click="sideMenu = false" v-for="item in units" clickable :to="item.path"
+                                    active-class="active-unit">
+                                    <q-item-section>
+                                        <q-item-label class="text-subtitle1 montserrat">{{ item.units }}</q-item-label>
+                                        <q-item-label class="text-h6 montserrat text-bold mt-4">{{ item.title }}
+                                        </q-item-label>
+                                    </q-item-section>
+                                </q-item>
+                            </q-list>
+                        </q-card>
+                    </q-dialog>
+
+                    <q-dialog v-if="$vuetify.display.sm" v-model="mobileNav" position="bottom" seamless
                         class="mobile-menu dimmed">
                         <q-card dark style="background-color: #1d1d1dd4">
                             <q-card-section class="row justify-evenly items-center no-wrap">
                                 <q-btn flat round icon="mdi-chevron-left" />
-                                <q-btn flat round icon="menu" />
+                                <q-btn @click="mobileMenu = true" flat round icon="menu" />
                                 <q-btn flat round icon="mdi-chevron-right" />
                             </q-card-section>
                         </q-card>
@@ -207,7 +225,8 @@
 import { ref } from 'vue';
 
 const sideMenu = ref(false);
-const mobileMenu = ref(true)
+const mobileNav = ref(true)
+const mobileMenu = ref(false)
 
 const units = [
     { units: "UNIT 1 - 1469", title: "Unit 01: Importance of Advertising", path: "/" },
@@ -232,8 +251,8 @@ const keywords = [
 
 const oldScroll = ref(0)
 const onScroll = (pos) => {
-    if (pos > oldScroll.value) mobileMenu.value = false
-    else mobileMenu.value = true
+    if (pos > oldScroll.value) mobileNav.value = false
+    else mobileNav.value = true
     oldScroll.value = pos
 }
 </script>
